@@ -1,0 +1,102 @@
+name: Build and Upload Artifacts
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Extract version from package.json
+        id: get_version
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create version branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b v${{ steps.get_version.outputs.version }}
+          git push origin v${{ steps.get_version.outputs.version }} --force
+
+      - name: Checkout version branch
+        uses: actions/checkout@v4
+        with:
+          ref: v${{ steps.get_version.outputs.version }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build React app
+        run: npm run build
+
+      - name: Prepare files
+        run: |
+          mkdir upload
+
+          # Handle main script separately
+          MAIN_JS=$(find build/static/js -type f -name "main.*.js" | head -n 1)
+          if [ -n "$MAIN_JS" ]; then
+            cp "$MAIN_JS" upload/script.js
+          fi
+
+          # Copy remaining JS chunks with original names
+          for f in build/static/js/*.js; do
+            if [[ "$f" != *"main."* ]]; then
+              cp "$f" upload/$(basename $f)
+            fi
+          done
+
+          # Handle main stylesheet separately
+          MAIN_CSS=$(find build/static/css -type f -name "main.*.css" | head -n 1)
+          if [ -n "$MAIN_CSS" ]; then
+            cp "$MAIN_CSS" upload/styles.css
+          fi
+
+          # Copy remaining CSS files with original names
+          for f in build/static/css/*.css; do
+            if [[ "$f" != *"main."* ]]; then
+              cp "$f" upload/$(basename $f)
+            fi
+          done
+
+      - name: Upload files
+        run: |
+          for f in upload/*; do
+            echo "Uploading $f"
+            MIME_TYPE="application/octet-stream"
+            case "$f" in
+              *.js) MIME_TYPE="application/javascript" ;;
+              *.css) MIME_TYPE="text/css" ;;
+            esac
+
+            RESPONSE=$(curl -s -w "%{http_code}" \
+              -o response.json \
+              -X POST "https://www.pythonanywhere.com/api/v0/user/${{ vars.CONSOLE_USER_ID }}/files/path/home/${{ vars.CONSOLE_USER_ID }}/resources/login/v${{ steps.get_version.outputs.version }}/$(basename $f)" \
+              -H "Authorization: Token ${{ secrets.CONSOLE_API_KEY }}" \
+              -H "Content-Type: multipart/form-data" \
+              -F "content=@$f;type=$MIME_TYPE")
+
+            if [ "$RESPONSE" -ne 201 ]; then
+              echo "Upload failed for $f (status $RESPONSE)"
+              cat response.json
+            else
+              echo "Uploaded $f"
+            fi
+          done

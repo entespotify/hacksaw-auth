@@ -1,6 +1,6 @@
 {
-  "name": "hacksaw-auth",
-  "version": "0.0.1",
+  "name": "hacksaw-auth-sso",
+  "version": "0.0.3",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -57,6 +57,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "homepage": "https://entespotify.github.io/hacksaw-auth"
+  }
 }
