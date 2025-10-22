@@ -80,7 +80,7 @@ const Profile: FC = () => {
                         <Typography variant="h5" sx={{ fontWeight: 700, textAlign: "center", mb: 1 }}>
                             @{profileData.username || "Unknown User"}
                         </Typography>
-                        {(profileData.first_name && profileData. last_name) &&
+                        {(profileData.first_name && profileData.last_name) &&
                             <Typography variant="body2" sx={{ textAlign: "center", color: "text.secondary", mb: 2 }}>
                                 {profileData.first_name || ""} {profileData.last_name || ""}
                             </Typography>
