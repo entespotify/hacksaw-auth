@@ -22,6 +22,9 @@ jobs:
         run: npm ci
 
       - name: Build
+        env:
+            REACT_APP_BASE_URL: ${{ vars.REACT_APP_BASE_URL }}
+            REACT_APP_CLIENT_ID: ${{ vars.REACT_APP_CLIENT_ID }}
         run: npm run build
 
       - name: Deploy to GitHub Pages

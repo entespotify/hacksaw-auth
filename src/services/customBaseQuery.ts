@@ -1,7 +1,6 @@
 import { BaseQueryApi, FetchArgs } from "@reduxjs/toolkit/query/react";
-import { RootState } from "./store";
-import { login, logout } from "./slice/authSlice";
 import fetchClient from "./fetchClient";
+import { getAuthToken } from "./utils";
 
 /**
  * Custom base query for all API endpoints
@@ -10,55 +9,46 @@ import fetchClient from "./fetchClient";
  * @returns API response from fetch client
  */
 const customBaseQuery = async (
-	{ body, variables }: { body?: string | FormData | object, variables?: any },
+	{ body, variables }: { body?: string | FormData | object; variables?: any },
 	api: BaseQueryApi
 ) => {
 	try {
-		let headers = {}
-		if(!variables?.noAuth) {
-			//getting auth token from global state or local storage
-			let token: string = (api.getState() as RootState).auth.token;
-			if (!token) {
-				let localToken: string | null = localStorage.getItem('token');
-				if (localToken && localToken !== null) {
-					token = localToken;
-					api.dispatch(login({ token: localToken }));
-				}
-			}
+		let headers = {};
+		if (!variables?.noAuth) {
+			const tokenResponse = getAuthToken();
+            if (!tokenResponse || !tokenResponse.access_token) {
+                return { error: { status: 401, data: "Unauthorized: No token found" } };
+            }
 
-			//setting authorization header
-			headers = {
-				"Authorization": `Bearer ${token}`
-			}
+            // Set the Authorization header with the Bearer token
+            headers = {
+                Authorization: `Bearer ${tokenResponse.access_token}`,
+            };
 		}
 
-		let args: FetchArgs = {
+		const args: FetchArgs = {
 			url: variables.url,
 			body: body,
 			method: variables.method,
 			params: variables.params,
 			headers: {
-				...headers
+				...headers,
 			},
-			credentials: "include"
-		}
+			credentials: "include",
+		};
 
-		let result;
-		let response = await fetchClient(args);
+		const response = await fetchClient(args);
+
 		if (response.ok) {
-			result = response.json();
+			const result = await response.json();
+			return { data: result };
 		} else {
-			if (response.status === 401 || response.status === 403) {
-				api.dispatch(logout());
-				//done in a dirty way till we figure out a better way to redirect to login
-				if(!variables.noAuth) window.location.reload();
-			}
+			return { error: { status: response.status, data: await response.json() } };
 		}
-		return { data: result };
-	} catch (error: any | Error) {
-		console.error("Error occurred while getting api response:", error);
-		return { error: { status: error.response.status, data: error } };
+	} catch (error: any) {
+		console.error("Error occurred while getting API response:", error);
+		return { error: { status: error.response?.status || 500, data: error } };
 	}
-}
+};
 
 export default customBaseQuery;

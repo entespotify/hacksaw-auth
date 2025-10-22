@@ -25,8 +25,16 @@ export const authApi = createApi({
 					noAuth: true
 				}
 			})
+		}),
+		profile: builder.query({
+			query: () => ({
+				variables: {
+					url: '/api/auth/me/',
+					method: 'GET'
+				}
+			})
 		})
 	}),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation, useProfileQuery } = authApi;

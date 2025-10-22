@@ -1,9 +1,7 @@
 import { FC } from "react";
 import { Box, Typography, Button, ThemeProvider, createTheme } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { useNavigate } from 'react-router-dom';
-
-import { logout } from "../services/slice/authSlice";
+import { useAuth } from '@entespotify/react-oauth-client-components'
+import { useNavigate } from "react-router-dom";
 
 const darkTheme = createTheme({
     palette: {
@@ -25,13 +23,8 @@ const darkTheme = createTheme({
 });
 
 const Home: FC = () => {
-    const dispatch = useDispatch();
+    const { logout } = useAuth();
     const navigate = useNavigate();
-
-    const handleLogout = () => {
-        dispatch(logout());
-        navigate('/login', { replace: true });
-    };
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -73,9 +66,24 @@ const Home: FC = () => {
                         letterSpacing: 1,
                         px: 5,
                         py: 1.5,
+                        mb: { xs: 6, sm: 0 }
+                    }}
+                    onClick={() => navigate("/profile")}
+                >
+                    Profile
+                </Button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                        mt: 4,
+                        fontWeight: 600,
+                        letterSpacing: 1,
+                        px: 5,
+                        py: 1.5,
                         mb: { xs: 6, sm: 0 } // Adds space below button on mobile
                     }}
-                    onClick={handleLogout}
+                    onClick={logout}
                 >
                     Logout
                 </Button>
