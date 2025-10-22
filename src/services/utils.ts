@@ -1,3 +1,5 @@
+import { TokenResponse } from "@entespotify/react-oauth-client-components";
+
 /**
  * Force logout user.
  * Removes the auth token from local storage and reloads the page to redirect user to login page.
@@ -65,4 +67,20 @@ export function formatDate(dateString: string): string {
         console.log("Error occurred while formatting date string:", error.message);
     }
     return date;
+}
+
+/**
+ * Retrieves the "__auth_token" from local storage.
+ * @returns The token as a TokenResponse object or null if not found.
+ */
+export function getAuthToken(): TokenResponse | null {
+    try {
+        const tokenString = localStorage.getItem("__auth_token");
+        if (tokenString) {
+            return JSON.parse(tokenString) as TokenResponse;
+        }
+    } catch (error: Error | any) {
+        console.error("Error occurred while retrieving auth token:", error.message);
+    }
+    return null;
 }
