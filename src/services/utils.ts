@@ -21,9 +21,9 @@ export function forceLogOut() {
  */
 export function join(...paths: string[]): string {
     let joinedPath: string = '';
-    paths.map(path => {
+    paths.forEach(path => {
         joinedPath = path.startsWith('/') || joinedPath.endsWith('/') ? joinedPath + path : joinedPath + '/' + path;
-    })
+    });
     return joinedPath;
 }
 
