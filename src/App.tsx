@@ -8,7 +8,7 @@ const authConfig = {
     clientId: process.env.REACT_APP_CLIENT_ID || "",
     authorizationEndpoint: process.env.REACT_APP_BASE_URL + "/o/authorize/",
     tokenEndpoint: process.env.REACT_APP_BASE_URL + "/o/token/",
-    redirectUri: window.location.origin + '/',
+    redirectUri: window.location.origin + window.location.pathname,
     scope: "read",
     storage: "localStorage" as const,
 };
