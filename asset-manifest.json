@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/hacksaw-auth/static/css/main.3dbf150f.css",
-    "main.js": "/hacksaw-auth/static/js/main.7bb0f2ec.js",
+    "main.js": "/hacksaw-auth/static/js/main.10441e46.js",
     "static/js/453.8b90a976.chunk.js": "/hacksaw-auth/static/js/453.8b90a976.chunk.js",
     "index.html": "/hacksaw-auth/index.html",
     "main.3dbf150f.css.map": "/hacksaw-auth/static/css/main.3dbf150f.css.map",
-    "main.7bb0f2ec.js.map": "/hacksaw-auth/static/js/main.7bb0f2ec.js.map",
+    "main.10441e46.js.map": "/hacksaw-auth/static/js/main.10441e46.js.map",
     "453.8b90a976.chunk.js.map": "/hacksaw-auth/static/js/453.8b90a976.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3dbf150f.css",
-    "static/js/main.7bb0f2ec.js"
+    "static/js/main.10441e46.js"
   ]
 }
