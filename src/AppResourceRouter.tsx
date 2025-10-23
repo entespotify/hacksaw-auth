@@ -1,4 +1,4 @@
-import { useNavigate, Routes, Route, Navigate } from "react-router-dom";
+import { useNavigate, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 
 import { setupStore } from "./services/store";
@@ -10,6 +10,7 @@ import CreateAccountPage from "./pages/createAccount";
 import RegistrationSuccessPage from "./pages/registrationSuccess";
 import { LoginPage, CallbackPage } from "@entespotify/react-oauth-client-components";
 import ProfilePage from "./pages/profile";
+import IndexRouteRedirect from "./components/index-route-redirect/IndexRouteRedirect";
 
 const AppResourceRouter = () => {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ const AppResourceRouter = () => {
         <Provider store={store}>
             <Routes>
                 <Route path="/" element={<PublicLayout />}>
+                    <Route index element={<IndexRouteRedirect />} />
                     <Route path="login" element={<LoginPage />} />
                     <Route path="auth/callback" element={<CallbackPage />} />
                     <Route path="register" element={<PublicLayout />}>
@@ -30,7 +32,7 @@ const AppResourceRouter = () => {
                     <Route path="home" element={<Home />} />
                     <Route path="profile" element={<ProfilePage />} />
                 </Route>
-                <Route index element={<Navigate to={"/home"} />} />
+                {/* <Route index element={<Navigate to={"/home"} />} /> */}
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Provider>
