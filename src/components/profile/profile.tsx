@@ -92,12 +92,12 @@ const Profile: FC = () => {
                         <Chip label={profileData.is_staff ? "Admin" : "User"} color="primary" sx={{ mb: 2 }} />
 
                         <Grid container spacing={2} justifyContent="center">
-                            <Grid item>
+                            <Grid>
                                 <Button variant="contained" color="primary" sx={{ px: 3 }}>
                                     Edit Profile
                                 </Button>
                             </Grid>
-                            <Grid item>
+                            <Grid>
                                 <Button variant="outlined" color="primary" sx={{ px: 3 }} onClick={() => navigate("/home") }>
                                     Home
                                 </Button>

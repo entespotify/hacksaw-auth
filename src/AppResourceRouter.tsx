@@ -16,13 +16,17 @@ const AppResourceRouter = () => {
     const navigate = useNavigate();
     const store = setupStore(navigate);
 
+    const postLoginRedirectCallback = () => {
+        navigate("/home");
+    }
+
     return (
         <Provider store={store}>
             <Routes>
                 <Route path="/" element={<PublicLayout />}>
                     <Route index element={<IndexRouteRedirect />} />
                     <Route path="login" element={<LoginPage />} />
-                    <Route path="auth/callback" element={<CallbackPage />} />
+                    <Route path="auth/callback" element={<CallbackPage onSuccessCallback={postLoginRedirectCallback} />} />
                     <Route path="register" element={<PublicLayout />}>
                         <Route index element={<CreateAccountPage />} />
                         <Route path="success" element={<RegistrationSuccessPage />} />
@@ -32,7 +36,6 @@ const AppResourceRouter = () => {
                     <Route path="home" element={<Home />} />
                     <Route path="profile" element={<ProfilePage />} />
                 </Route>
-                {/* <Route index element={<Navigate to={"/home"} />} /> */}
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Provider>
