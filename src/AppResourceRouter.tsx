@@ -25,7 +25,7 @@ const AppResourceRouter = () => {
             <Routes>
                 <Route path="/" element={<PublicLayout />}>
                     <Route index element={<IndexRouteRedirect />} />
-                    <Route path="login" element={<LoginPage />} />
+                    <Route path="login" element={<LoginPage directLogin={true} />} />
                     <Route path="auth/callback" element={<CallbackPage onSuccessCallback={postLoginRedirectCallback} />} />
                     <Route path="register" element={<PublicLayout />}>
                         <Route index element={<CreateAccountPage />} />
