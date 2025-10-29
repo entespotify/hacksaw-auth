@@ -1,8 +1,9 @@
 import { HashRouter } from "react-router-dom";
 import { AuthProvider } from "@entespotify/react-oauth-client-components";
-import AppResourceRouter from "./AppResourceRouter";
 
 import "./App.css";
+import { ThemeProvider } from "./theme/themeProvider";
+import AppResourceRouter from "./AppResourceRouter";
 
 const authConfig = {
     clientId: process.env.REACT_APP_CLIENT_ID || "",
@@ -18,7 +19,9 @@ function App() {
         <div className="App">
             <AuthProvider config={authConfig}>
                 <HashRouter>
-                    <AppResourceRouter />
+                    <ThemeProvider>
+                        <AppResourceRouter />
+                    </ThemeProvider>
                 </HashRouter>
             </AuthProvider>
         </div>
