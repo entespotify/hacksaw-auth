@@ -1,12 +1,10 @@
 import { FC } from "react";
 import { Box, Typography, Avatar, Button, Chip, Grid } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { useProfileQuery } from "../../services/api/auth.api";
 import { Permission } from "../../types/authentication";
 
 const Profile: FC = () => {
     const { data: profileData, isLoading, isError } = useProfileQuery("");
-    const navigate = useNavigate();
 
     if (isLoading) {
         return (
@@ -75,11 +73,6 @@ const Profile: FC = () => {
                         <Grid>
                             <Button variant="contained" color="primary" sx={{ px: 3 }}>
                                 Edit Profile
-                            </Button>
-                        </Grid>
-                        <Grid>
-                            <Button variant="outlined" color="primary" sx={{ px: 3 }} onClick={() => navigate("/home")}>
-                                Home
                             </Button>
                         </Grid>
                     </Grid>

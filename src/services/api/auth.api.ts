@@ -32,7 +32,8 @@ export const authApi = createApi({
 					url: '/api/auth/me/',
 					method: 'GET'
 				}
-			})
+			}),
+			keepUnusedDataFor: 60
 		})
 	}),
 });

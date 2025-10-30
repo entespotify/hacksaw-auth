@@ -1,5 +1,6 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from '@entespotify/react-oauth-client-components'
+import MenuAppBar from "../components/app-bar/AppBar";
 
 export const ProtectedLayout = () => {
 	const { isAuthenticated } = useAuth();
@@ -11,6 +12,7 @@ export const ProtectedLayout = () => {
 
 		return (
 			<>
+				<MenuAppBar/>
 				<Outlet />
 			</>
 		)

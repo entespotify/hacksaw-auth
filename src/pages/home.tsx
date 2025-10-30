@@ -1,11 +1,7 @@
 import { FC } from "react";
-import { Box, Typography, Button } from "@mui/material";
-import { useAuth } from '@entespotify/react-oauth-client-components'
-import { useNavigate } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
 
 const Home: FC = () => {
-    const { logout } = useAuth();
-    const navigate = useNavigate();
 
     return (
         <Box
@@ -37,36 +33,6 @@ const Home: FC = () => {
             <Typography variant="body2" sx={{ color: "text.secondary", maxWidth: 600, textAlign: "center", mt: 2, fontStyle: "italic" }}>
                 Welcome aboard. Your credentials are safe with us. Probably.
             </Typography>
-            <Button
-                variant="contained"
-                color="primary"
-                sx={{
-                    mt: 4,
-                    fontWeight: 600,
-                    letterSpacing: 1,
-                    px: 5,
-                    py: 1.5,
-                    mb: { xs: 6, sm: 0 }
-                }}
-                onClick={() => navigate("/profile")}
-            >
-                Profile
-            </Button>
-            <Button
-                variant="contained"
-                color="primary"
-                sx={{
-                    mt: 4,
-                    fontWeight: 600,
-                    letterSpacing: 1,
-                    px: 5,
-                    py: 1.5,
-                    mb: { xs: 6, sm: 0 } // Adds space below button on mobile
-                }}
-                onClick={logout}
-            >
-                Logout
-            </Button>
         </Box>
     );
 };
