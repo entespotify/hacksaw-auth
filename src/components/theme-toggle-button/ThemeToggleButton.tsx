@@ -12,7 +12,16 @@ export const ThemeToggleButton = () => {
 
     return (
         <Tooltip title={`Switch to ${isDark ? 'light' : 'dark'} mode`}>
-            <IconButton color="inherit" onClick={toggleColorMode}>
+            <IconButton
+                color="inherit"
+                onClick={toggleColorMode}
+                sx={{
+                    color: theme.palette.text.secondary,
+                    '&:hover': {
+                        color: theme.palette.primary.main,
+                    },
+                }}
+            >
                 {isDark ? <Brightness7 /> : <Brightness4 />}
             </IconButton>
         </Tooltip>
