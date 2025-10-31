@@ -65,9 +65,7 @@ const Profile: FC = () => {
                             height: 100,
                             border: "4px solid " + theme.palette.primary.light,
                         })}
-                    >
-                        {profile.username.charAt(0).toUpperCase()}
-                    </Avatar>
+                    />
                     <Typography variant="h5" sx={{ fontWeight: 700, textAlign: "center", mb: 1 }}>
                         @{profile.username || "Unknown User"}
                     </Typography>
