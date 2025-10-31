@@ -2,20 +2,25 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useTheme } from '@mui/material/styles';
 import { useAuth } from '@entespotify/react-oauth-client-components';
+import { useSelector } from "react-redux";
+
+import { RootState } from "../../services/store";
 import useSafeNavigate from '../../hooks/useSafeNavigate';
 import { FavIcon } from '../../icons/favicon';
 import { ThemeToggleButton } from '../theme-toggle-button/ThemeToggleButton';
+import { Avatar } from '@mui/material';
+import { stringAvatar } from './AppBar.utils';
 
 export default function MenuAppBar() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const { logout } = useAuth();
     const navigate = useSafeNavigate();
     const theme = useTheme();
+    const profile = useSelector((state: RootState) => state.profile)
 
     const goHome = () => {
         navigate("/home");
@@ -57,23 +62,12 @@ export default function MenuAppBar() {
                 >
                     <FavIcon />
                 </IconButton>
-                <div>
+                <div style={{ display: "flex", alignItems: "center" }}>
                     <ThemeToggleButton />
-                    <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
+                    <Avatar
                         onClick={handleMenu}
-                        sx={{
-                            color: theme.palette.text.secondary,
-                            '&:hover': {
-                                color: theme.palette.primary.main,
-                            },
-                        }}
-                    >
-                        <AccountCircle />
-                    </IconButton>
+                        {...stringAvatar(profile.username, theme)}
+                    />
                     <Menu
                         id="menu-appbar"
                         anchorEl={anchorEl}
