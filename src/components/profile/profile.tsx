@@ -15,7 +15,7 @@ const Profile: FC = () => {
         if (profileData) {
             dispatch(loadProfile(profileData));
         }
-    }, [profileData]);
+    }, [profileData, dispatch]);
 
     const profile = useSelector((state: RootState) => state.profile);
 
