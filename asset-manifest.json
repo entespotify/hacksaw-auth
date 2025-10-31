@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/hacksaw-auth/static/css/main.3dbf150f.css",
-    "main.js": "/hacksaw-auth/static/js/main.a4962213.js",
+    "main.js": "/hacksaw-auth/static/js/main.a2d8f8f6.js",
     "index.html": "/hacksaw-auth/index.html",
     "main.3dbf150f.css.map": "/hacksaw-auth/static/css/main.3dbf150f.css.map",
-    "main.a4962213.js.map": "/hacksaw-auth/static/js/main.a4962213.js.map"
+    "main.a2d8f8f6.js.map": "/hacksaw-auth/static/js/main.a2d8f8f6.js.map"
   },
   "entrypoints": [
     "static/css/main.3dbf150f.css",
-    "static/js/main.a4962213.js"
+    "static/js/main.a2d8f8f6.js"
   ]
 }
