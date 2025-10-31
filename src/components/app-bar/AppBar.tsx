@@ -5,16 +5,16 @@ import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { useAuth } from '@entespotify/react-oauth-client-components';
+import useSafeNavigate from '../../hooks/useSafeNavigate';
 import { FavIcon } from '../../icons/favicon';
 import { ThemeToggleButton } from '../theme-toggle-button/ThemeToggleButton';
 
 export default function MenuAppBar() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const { logout } = useAuth();
-    const navigate = useNavigate();
+    const navigate = useSafeNavigate();
     const theme = useTheme();
 
     const goHome = () => {
