@@ -4,7 +4,7 @@ import { RootState } from "../store";
 import { NavigateFunction } from "react-router-dom";
 
 export const createAuthMiddleware = (navigate: NavigateFunction): Middleware<{}, RootState> => {
-    const authMiddleware: Middleware<{}, RootState> = (store) => (next) => (action) => {
+    const authMiddleware: Middleware<{}, RootState> = (store) => (next) => (action: any) => {
         if (action.type.endsWith("/rejected")) {
             const { error } = action.payload || {};
             if (error?.status === 401 || error?.status === 403) {
