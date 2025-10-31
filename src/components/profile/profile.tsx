@@ -1,10 +1,23 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Box, Typography, Avatar, Button, Chip, Grid } from "@mui/material";
+
+import { RootState } from "../../services/store";
 import { useProfileQuery } from "../../services/api/auth.api";
+import { loadProfile } from "../../services/slice/userSlice";
 import { Permission } from "../../types/authentication";
 
 const Profile: FC = () => {
     const { data: profileData, isLoading, isError } = useProfileQuery("");
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (profileData) {
+            dispatch(loadProfile(profileData));
+        }
+    }, [profileData]);
+
+    const profile = useSelector((state: RootState) => state.profile);
 
     if (isLoading) {
         return (
@@ -52,22 +65,20 @@ const Profile: FC = () => {
                             height: 100,
                             border: "4px solid " + theme.palette.primary.light,
                         })}
-                    >
-                        {profileData.username.charAt(0).toUpperCase()}
-                    </Avatar>
+                    />
                     <Typography variant="h5" sx={{ fontWeight: 700, textAlign: "center", mb: 1 }}>
-                        @{profileData.username || "Unknown User"}
+                        @{profile.username || "Unknown User"}
                     </Typography>
-                    {(profileData.first_name && profileData.last_name) &&
+                    {(profile.first_name && profile.last_name) &&
                         <Typography variant="body2" sx={{ textAlign: "center", color: "text.secondary", mb: 2 }}>
-                            {profileData.first_name || ""} {profileData.last_name || ""}
+                            {profile.first_name || ""} {profile.last_name || ""}
                         </Typography>
                     }
                     <Typography variant="body2" sx={{ textAlign: "center", color: "text.secondary", mb: 2 }}>
-                        {profileData.email || "No email provided"}
+                        {profile.email || "No email provided"}
                     </Typography>
 
-                    <Chip label={profileData.is_staff ? "Admin" : "User"} color="primary" sx={{ mb: 2 }} />
+                    <Chip label={profile.is_staff ? "Admin" : "User"} color="primary" sx={{ mb: 2 }} />
 
                     <Grid container spacing={2} justifyContent="center">
                         <Grid>

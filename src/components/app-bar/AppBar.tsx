@@ -2,69 +2,76 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { useAuth } from '@entespotify/react-oauth-client-components';
+import { useSelector } from "react-redux";
+
+import { RootState } from "../../services/store";
+import useSafeNavigate from '../../hooks/useSafeNavigate';
 import { FavIcon } from '../../icons/favicon';
 import { ThemeToggleButton } from '../theme-toggle-button/ThemeToggleButton';
+import { Avatar, Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
+import { stringAvatar } from './AppBar.utils';
 
 export default function MenuAppBar() {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [open, setOpen] = React.useState(false);
     const { logout } = useAuth();
-    const navigate = useNavigate();
+    const navigate = useSafeNavigate();
     const theme = useTheme();
+    const profile = useSelector((state: RootState) => state.profile)
 
     const goHome = () => {
         navigate("/home");
     }
 
-    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
     const switchToProfile = () => {
-        handleClose();
         navigate("/profile");
     }
 
+    const toggleDrawer = (newOpen: boolean) => () => {
+        setOpen(newOpen);
+    };
+
+    const DrawerList = (
+        <Box sx={{ width: 250, backgroundColor: theme.palette.background.default }} role="presentation" onClick={toggleDrawer(false)}>
+            <List>
+                <ListItem key={"profile"} disablePadding>
+                    <ListItemButton onClick={switchToProfile}>
+                        <ListItemIcon>
+                            <PersonIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={"Profile"} />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem key={"logOut"} disablePadding>
+                    <ListItemButton onClick={logout}>
+                        <ListItemIcon>
+                            <LogoutIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={"Log Out"} />
+                    </ListItemButton>
+                </ListItem>
+            </List>
+        </Box>
+    );
+
     return (
-        <AppBar
-            position="fixed"
-            sx={{
-                backgroundColor: theme.palette.background.default,
-                borderBottom: `1px solid ${theme.palette.divider}`,
-                color: theme.palette.text.primary,
-            }}
-        >
-            <Toolbar sx={{ justifyContent: "space-between" }}>
-                <IconButton
-                    size="large"
-                    aria-label="home"
-                    onClick={goHome}
-                    sx={{
-                        color: theme.palette.text.secondary,
-                        '&:hover': {
-                            color: theme.palette.primary.main,
-                        },
-                    }}
-                >
-                    <FavIcon />
-                </IconButton>
-                <div>
-                    <ThemeToggleButton />
+        <>
+            <AppBar
+                position="fixed"
+                sx={{
+                    backgroundColor: theme.palette.background.default,
+                    borderBottom: `1px solid ${theme.palette.divider}`,
+                    color: theme.palette.text.primary,
+                }}
+            >
+                <Toolbar sx={{ justifyContent: "space-between" }}>
                     <IconButton
                         size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        onClick={handleMenu}
+                        aria-label="home"
+                        onClick={goHome}
                         sx={{
                             color: theme.palette.text.secondary,
                             '&:hover': {
@@ -72,28 +79,24 @@ export default function MenuAppBar() {
                             },
                         }}
                     >
-                        <AccountCircle />
+                        <FavIcon />
                     </IconButton>
-                    <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorEl}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={switchToProfile}>Profile</MenuItem>
-                        <MenuItem onClick={logout}>Log out</MenuItem>
-                    </Menu>
-                </div>
-            </Toolbar>
-        </AppBar>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                        <ThemeToggleButton />
+                        <Avatar
+                            onClick={toggleDrawer(true)}
+                            {...stringAvatar(profile.username, theme)}
+                        />
+                    </div>
+                </Toolbar>
+            </AppBar>
+            <Drawer
+                open={open}
+                anchor='right'
+                onClose={toggleDrawer(false)}
+            >
+                {DrawerList}
+            </Drawer>
+        </>
     );
 }
