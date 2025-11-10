@@ -33,7 +33,6 @@ export const authApi = createApi({
 					method: 'GET'
 				}
 			}),
-			keepUnusedDataFor: 60
 		})
 	}),
 });

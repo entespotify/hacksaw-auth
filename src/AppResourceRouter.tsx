@@ -10,7 +10,8 @@ import CreateAccountPage from "./pages/createAccount";
 import RegistrationSuccessPage from "./pages/registrationSuccess";
 import { LoginPage, CallbackPage } from "@entespotify/react-oauth-client-components";
 import ProfilePage from "./pages/profile";
-import IndexRouteRedirect from "./components/index-route-redirect/IndexRouteRedirect";
+import IndexRouteRedirect from "./components/no-render/index-route-redirect/IndexRouteRedirect";
+import { AppLoginInitializer } from "./components/no-render/app-login-initializer/appLoginInitializer";
 
 const AppResourceRouter = () => {
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ const AppResourceRouter = () => {
 
     return (
         <Provider store={store}>
+            <AppLoginInitializer />
             <Routes>
                 <Route path="/" element={<PublicLayout />}>
                     <Route index element={<IndexRouteRedirect />} />

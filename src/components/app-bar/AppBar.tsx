@@ -35,7 +35,7 @@ export default function MenuAppBar() {
     };
 
     const DrawerList = (
-        <Box sx={{ width: 250, backgroundColor: theme.palette.background.default }} role="presentation" onClick={toggleDrawer(false)}>
+        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
             <List>
                 <ListItem key={"profile"} disablePadding>
                     <ListItemButton onClick={switchToProfile}>
