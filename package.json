@@ -2,7 +2,7 @@
 	"name": "hacksaw-auth",
 	"version": "0.0.1",
 	"private": true,
-	"homepage": "https://entespotify.github.io/hacksaw-auth",
+	"homepage": "apps/hacksaw-auth",
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",

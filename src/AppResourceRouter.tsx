@@ -10,7 +10,6 @@ import CreateAccountPage from "./pages/createAccount";
 import RegistrationSuccessPage from "./pages/registrationSuccess";
 import { LoginPage, CallbackPage } from "@entespotify/react-oauth-client-components";
 import ProfilePage from "./pages/profile";
-import IndexRouteRedirect from "./components/no-render/index-route-redirect/IndexRouteRedirect";
 import { AppLoginInitializer } from "./components/no-render/app-login-initializer/appLoginInitializer";
 
 const AppResourceRouter = () => {
@@ -26,8 +25,7 @@ const AppResourceRouter = () => {
             <AppLoginInitializer />
             <Routes>
                 <Route path="/" element={<PublicLayout />}>
-                    <Route index element={<IndexRouteRedirect />} />
-                    <Route path="login" element={<LoginPage directLogin={true} />} />
+                    <Route path="login" element={<LoginPage />} />
                     <Route path="auth/callback" element={<CallbackPage onSuccessCallback={postLoginRedirectCallback} />} />
                     <Route path="register" element={<PublicLayout />}>
                         <Route index element={<CreateAccountPage />} />
