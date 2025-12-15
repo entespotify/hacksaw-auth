@@ -31,7 +31,7 @@ jobs:
       - name: Zip build artifacts
         run: |
           cd build
-          zip -r ../build.zip .
+          zip -r ../${GITHUB_REPOSITORY##*/}.zip .
           cd ..
 
       - name: Get access token
@@ -49,5 +49,5 @@ jobs:
         run: |
           curl -X POST \
             -H "Authorization: Bearer ${{ steps.token.outputs.access_token }}" \
-            -F "build_file=@build.zip" \
+            -F "build_file=@${GITHUB_REPOSITORY##*/}.zip" \
             ${{ vars.CMS_DEPLOY_API_URL }}
