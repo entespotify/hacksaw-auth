@@ -26,6 +26,7 @@ jobs:
         env:
           REACT_APP_BASE_URL: ${{ vars.REACT_APP_BASE_URL }}
           REACT_APP_CLIENT_ID: ${{ vars.REACT_APP_CLIENT_ID }}
+          REACT_APP_ROUTER_BASE_NAME: ${{ vars.REACT_APP_ROUTER_BASE_NAME }}
         run: npm run build
 
       - name: Zip build artifacts
