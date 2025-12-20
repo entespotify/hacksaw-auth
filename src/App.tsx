@@ -1,10 +1,13 @@
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
 import { AuthProvider } from "@entespotify/react-oauth-client-components";
 
 import "./App.css";
+import { setupStore } from "./services/store";
 import { ThemeProvider } from "./theme/themeProvider";
 import AppResourceRouter from "./AppResourceRouter";
 import { ROUTER_BASE_NAME } from "./services/constants";
+import { AppLoginInitializer } from "./components/no-render/app-login-initializer/appLoginInitializer";
 
 const authConfig = {
     clientId: process.env.REACT_APP_CLIENT_ID || "",
@@ -15,15 +18,20 @@ const authConfig = {
     storage: "localStorage" as const,
 };
 
+const store = setupStore();
+
 function App() {
     return (
         <div className="App">
             <AuthProvider config={authConfig}>
-                <BrowserRouter basename={ROUTER_BASE_NAME}>
-                    <ThemeProvider>
-                        <AppResourceRouter />
-                    </ThemeProvider>
-                </BrowserRouter>
+                <Provider store={store}>
+                    <AppLoginInitializer />
+                    <BrowserRouter basename={ROUTER_BASE_NAME}>
+                        <ThemeProvider>
+                            <AppResourceRouter />
+                        </ThemeProvider>
+                    </BrowserRouter>
+                </Provider>
             </AuthProvider>
         </div>
     );
