@@ -18,7 +18,7 @@ const NotFound: FC = () => {
 										Looks like you're lost
 									</h3>
 									<p>the page you are looking for is not found!</p>
-									<Link to={"/home"} className="link_404">Go home</Link>
+									<Link to={"/"} className="link_404">Go home</Link>
 								</div>
 							</div>
 						</div>

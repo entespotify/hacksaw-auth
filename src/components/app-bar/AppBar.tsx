@@ -23,7 +23,7 @@ export default function MenuAppBar() {
     const profile = useSelector((state: RootState) => state.profile);
 
     const goHome = () => {
-        navigate("/home");
+        navigate("/");
     }
 
     const switchToProfile = () => {

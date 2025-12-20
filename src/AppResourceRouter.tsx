@@ -27,7 +27,7 @@ const AppResourceRouter = () => {
                 </Route>
             </Route>
             <Route path="/" element={<ProtectedLayout />}>
-                <Route path="home" element={<Home />} />
+                <Route index element={<Home />} />
                 <Route path="profile" element={<ProfilePage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
