@@ -8,12 +8,13 @@ import CreateAccountPage from "./pages/createAccount";
 import RegistrationSuccessPage from "./pages/registrationSuccess";
 import { LoginPage, CallbackPage } from "@entespotify/react-oauth-client-components";
 import ProfilePage from "./pages/profile";
+import { HOME_ROUTE } from "./services/constants";
 
 const AppResourceRouter = () => {
     const navigate = useNavigate();
 
     const postLoginRedirectCallback = () => {
-        navigate("/home");
+        navigate(HOME_ROUTE);
     }
 
     return (
@@ -27,7 +28,7 @@ const AppResourceRouter = () => {
                 </Route>
             </Route>
             <Route path="/" element={<ProtectedLayout />}>
-                <Route path="home" element={<Home />} />
+                <Route index element={<Home />} />
                 <Route path="profile" element={<ProfilePage />} />
             </Route>
             <Route path="*" element={<NotFound />} />

@@ -8,6 +8,7 @@ import { ThemeProvider } from "./theme/themeProvider";
 import AppResourceRouter from "./AppResourceRouter";
 import { ROUTER_BASE_NAME } from "./services/constants";
 import { AppLoginInitializer } from "./components/no-render/app-login-initializer/appLoginInitializer";
+import AuthWatcher from "./components/no-render/authwatcher/AuthWatcher";
 
 const authConfig = {
     clientId: process.env.REACT_APP_CLIENT_ID || "",
@@ -26,6 +27,7 @@ function App() {
             <AuthProvider config={authConfig}>
                 <Provider store={store}>
                     <AppLoginInitializer />
+                    <AuthWatcher />
                     <BrowserRouter basename={ROUTER_BASE_NAME}>
                         <ThemeProvider>
                             <AppResourceRouter />
