@@ -1,15 +1,13 @@
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import { NavigateFunction } from 'react-router-dom';
 
 import { authApi } from './api/auth.api';
-import { createAuthMiddleware } from './middleware/authMiddleware';
 import authSlice from './slice/authSlice';
 import userSlice from './slice/userSlice';
 
 
 
-export const setupStore = (navigate: NavigateFunction): EnhancedStore => {
+export const setupStore = () => {
 	const store = configureStore({
 		reducer: {
 			[authApi.reducerPath]: authApi.reducer,
@@ -17,9 +15,7 @@ export const setupStore = (navigate: NavigateFunction): EnhancedStore => {
 			profile: userSlice,
 		},
 		middleware: (getDefaultMiddleware) =>
-			getDefaultMiddleware()
-				.concat(authApi.middleware)
-				.concat(createAuthMiddleware(navigate)),
+			getDefaultMiddleware().concat(authApi.middleware)
 	});
 
 	setupListeners(store.dispatch);
@@ -27,6 +23,6 @@ export const setupStore = (navigate: NavigateFunction): EnhancedStore => {
 	return store;
 };
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<ReturnType<typeof setupStore>['getState']>;
-export type AppDispatch = ReturnType<ReturnType<typeof setupStore>['dispatch']>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type RootState = ReturnType<AppStore['getState']>;
+export type AppDispatch = AppStore['dispatch'];

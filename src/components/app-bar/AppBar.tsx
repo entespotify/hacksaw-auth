@@ -20,7 +20,7 @@ export default function MenuAppBar() {
     const { logout } = useAuth();
     const navigate = useSafeNavigate();
     const theme = useTheme();
-    const profile = useSelector((state: RootState) => state.profile)
+    const profile = useSelector((state: RootState) => state.profile);
 
     const goHome = () => {
         navigate("/home");
@@ -94,6 +94,7 @@ export default function MenuAppBar() {
                 open={open}
                 anchor='right'
                 onClose={toggleDrawer(false)}
+                closeAfterTransition={true}
             >
                 {DrawerList}
             </Drawer>
