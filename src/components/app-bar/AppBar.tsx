@@ -1,29 +1,38 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
+import {
+    AppBar,
+    Avatar,
+    Box,
+    Drawer,
+    IconButton,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Toolbar
+}
+    from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
 import { useTheme } from '@mui/material/styles';
-import { useAuth } from '@entespotify/react-oauth-client-components';
 import { useSelector } from "react-redux";
 
 import { RootState } from "../../services/store";
 import useSafeNavigate from '../../hooks/useSafeNavigate';
 import { FavIcon } from '../../icons/favicon';
 import { ThemeToggleButton } from '../theme-toggle-button/ThemeToggleButton';
-import { Avatar, Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import LogoutIcon from '@mui/icons-material/Logout';
-import PersonIcon from '@mui/icons-material/Person';
 import { stringAvatar } from './AppBar.utils';
+import LogoutButton from '../logout-button/Logoutbutton';
+import { HOME_ROUTE } from '../../services/constants';
 
 export default function MenuAppBar() {
     const [open, setOpen] = React.useState(false);
-    const { logout } = useAuth();
     const navigate = useSafeNavigate();
     const theme = useTheme();
     const profile = useSelector((state: RootState) => state.profile);
 
     const goHome = () => {
-        navigate("/");
+        navigate(HOME_ROUTE);
     }
 
     const switchToProfile = () => {
@@ -46,12 +55,7 @@ export default function MenuAppBar() {
                     </ListItemButton>
                 </ListItem>
                 <ListItem key={"logOut"} disablePadding>
-                    <ListItemButton onClick={logout}>
-                        <ListItemIcon>
-                            <LogoutIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={"Log Out"} />
-                    </ListItemButton>
+                    <LogoutButton />
                 </ListItem>
             </List>
         </Box>

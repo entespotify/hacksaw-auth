@@ -3,6 +3,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 
 import { authApi } from './api/auth.api';
 import authSlice from './slice/authSlice';
+import ssoAuthSlice from './slice/ssoAuthSlice';
 import userSlice from './slice/userSlice';
 
 
@@ -12,6 +13,7 @@ export const setupStore = () => {
 		reducer: {
 			[authApi.reducerPath]: authApi.reducer,
 			auth: authSlice,
+			ssoAuth: ssoAuthSlice,
 			profile: userSlice,
 		},
 		middleware: (getDefaultMiddleware) =>
